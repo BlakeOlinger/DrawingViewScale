@@ -18,6 +18,8 @@ namespace DrawingViewScale
             // read app data to get the path of the drawing config file to read
             var appDataPath = @"C:\Users\bolinger\Documents\SolidWorks Projects\Prefab Blob - Cover Blob\app data\rebuild.txt";
             var appDataLines = System.IO.File.ReadAllLines(appDataPath);
+
+            // references: "C:\Users\bolinger\Documents\SolidWorks Projects\Prefab Blob - Cover Blob\base blob - L1\blob.coverDrawing.txt"
             var configPath = appDataLines[0];
             var configLines = System.IO.File.ReadAllLines(configPath);
 
@@ -37,10 +39,21 @@ namespace DrawingViewScale
             // set View::ScaleRatio value
             activeView.ScaleDecimal = drawingView1Scale;
 
+            // get reference to Drawing View2
+            activeView = (View)activeView.GetNextView();
+            // set if not null
+            if (activeView != null)
+            {
+                activeView.ScaleDecimal = drawingView1Scale;
+            }
+
             // rebuild to reflect changes
             model.EditRebuild3();
         }
-
+        private static void displayLines(bool line)
+        {
+            Console.WriteLine(line);
+        }
         private static void displayLines(string[] lines)
         {
             foreach (string line in lines)
